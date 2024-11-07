@@ -22,7 +22,7 @@ jobs:
       
       - name: Docker Build
         run: |
-          docker build -f ./Dockerfile  ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }} .
+          docker buildx build -f ./Dockerfile ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }} .
 
       - name: Docker Push
         run: |
