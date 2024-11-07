@@ -1,0 +1,29 @@
+name: workflow with Azure ACR & AKS
+
+on:
+
+  push:
+    branches:
+      - main
+      - 'feature/*'
+  workflow_dispatch:
+
+jobs: 
+  build-push :
+    name: Build & Push an image to ACR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker Login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.SERVER_URL }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      
+      - name: Docker Build
+        run: |
+          docker build -f ./Dockerfile -t ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }} .
+
+      - name: Docker Push
+        run: |
+          docker push ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
