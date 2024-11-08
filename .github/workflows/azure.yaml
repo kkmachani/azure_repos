@@ -30,3 +30,7 @@ jobs:
       - name: Docker Push
         run: |
           docker push ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
+   
+  deploy to aks:
+       steps:
+         - name: 
