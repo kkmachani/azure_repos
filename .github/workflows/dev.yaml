@@ -33,6 +33,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.TAG }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
 
  
