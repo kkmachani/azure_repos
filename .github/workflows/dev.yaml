@@ -10,7 +10,7 @@ on:
 
 jobs: 
   build-push :
-    name: pull & Push an image to Docker image
+    name: pull & Push an image to Docker images
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
