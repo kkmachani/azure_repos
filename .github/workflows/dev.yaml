@@ -37,13 +37,8 @@ jobs:
         run: docker images
 
       - name: Docker push
-        id: push
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-        with:
-          context: .
-          push: true
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
-            docker push ghcr.io/${{ github.repository_owner }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
+          docker push ghcr.io/${{ github.repository_owner }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
 
  
