@@ -30,6 +30,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG}} .
+          docker tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }} ghcr.io/${{ github.repository_owner }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
 
 
       - name: List the images
@@ -43,6 +44,6 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
-            ghcr.io/${{ github.repository_owner }}/${{ secrets.IMG_NAME }}:${{ github.sha }}
+            docker push ghcr.io/${{ github.repository_owner }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
 
  
