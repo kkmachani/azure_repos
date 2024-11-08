@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
       
-      - name: Docker Build
+      - name: Docker Build 
         run: |
           docker build -f ./Dockerfile -t ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }} .
 
