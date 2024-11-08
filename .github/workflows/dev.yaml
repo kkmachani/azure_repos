@@ -1,0 +1,28 @@
+name: workflow with Azure ACR & AKS
+
+on:
+
+  push:
+    branches:
+      - main
+      - 'feature/*'
+  workflow_dispatch:
+
+jobs: 
+  build-push :
+    name: pull & Push an image to Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Login to Dockerhub
+        run: |
+          echo "${{ secrets.DOC_PWD }}" | docker login -u "${{ secrets.DOC_USERNAME }}" --password-stdin
+          
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG}} .
+
+      - name: List the images
+        run: docker images
