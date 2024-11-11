@@ -1,0 +1,31 @@
+name: workflow with Azure VM
+
+on:
+
+  push:
+    branches:
+      - main
+      - 'feature/*'
+  workflow_dispatch:
+
+jobs:
+  build-push:
+    name: build & push to Dockerhub
+    runs-on: ubuntu-latest
+    environment:
+        name: deploy
+    steps:
+      - name: chekout the repository
+        uses: actions/checkout@v4 
+    
+      - name: Setup ssh and connect to Azure VM
+        uses: appleboy/ssh-action@v0.1.0
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_VM_KEY }}
+          port: 22
+          script: |
+            # Verbose SSH Debugging
+            echo "Starting SSH connection..."
+            ssh -v -i ${{ secrets.AZURE_VM_KEY }} ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_IP }} "echo Connected to VM"
