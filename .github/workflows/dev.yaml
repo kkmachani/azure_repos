@@ -9,6 +9,14 @@ on:
   workflow_dispatch:
 
 jobs: 
+  unit-testing:
+    name: Unit-testing
+    runs-on: ubuntu-latest
+    services:
+      nginx:
+        image: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG}}
+        ports: 
+          - 80:80
   build-push :
     name: pull & Push an image to Docker images
     runs-on: ubuntu-latest

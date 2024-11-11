@@ -1,4 +1,4 @@
-name: workflow with Azure ACR & AKS
+name: workflow with Azure VM
 
 on:
 
@@ -10,27 +10,44 @@ on:
 
 jobs: 
   build-push :
-    name: Build & Push an image to ACR
+    name: Build & Push an image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      
-      - name: Docker Login
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.SERVER_URL }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
-      
-      - name: Docker Build 
-        run: |
-          docker build -f ./Dockerfile -t ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }} .
 
-      - name: Docker Push
-        run: |
-          docker push ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
+
+      - name: Setup ssh and connect to Azure Vm
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
+      
+  
+      - name: DockerHub Login
+        uses: docker/login-action@v2.2.0
+        with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD}}
+      
+      # - name: Docker Build 
+      #   run: |
+      #     docker build -f ./Dockerfile -t ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }} .
+
+      # - name: Docker Push
+      #   run: |
+      #     docker push ${{ secrets.SERVER_URL }}/${{ secrets.IMG_NAME }}:${{ secrets.TAG }}
    
-  deploy to aks:
-       steps:
-         - name: 
+  # Deploy to aks:
+  #    name: Deploy to AKS cluster
+  #    needs: [build-push]
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - name: 
+  #        uses: azure/aks-set-context@v4
+  #        with:
+  #         cluster-name: ${{ env.aks_name }}
+  #         resource-group: ${{ env.rg_name }}
+       
+   
