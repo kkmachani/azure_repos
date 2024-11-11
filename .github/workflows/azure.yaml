@@ -18,7 +18,7 @@ jobs:
 
 
       - name: Setup ssh and connect to Azure Vm
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.0
         with:
           host: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USER }}
