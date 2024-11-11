@@ -15,7 +15,7 @@ jobs:
     environment:
         name: deploy
     steps:
-      - name: chekout the repository
+      - name: checkout the repository
         uses: actions/checkout@v4 
     
       - name: Setup ssh and connect to Azure VM
