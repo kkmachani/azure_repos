@@ -23,6 +23,11 @@ jobs:
           host: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USER }}
           key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
+          script: |
+            # Set variables
+            IMAGE_NAME="my-app"
+            IMAGE_TAG="latest"
+            REGISTRY_URL="docker.io/${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME"
         
       
   
